@@ -11,7 +11,7 @@ pipeline {
         stage('Deploy Docker Container') {
             steps {
                 sh 'docker rm -f kot_display_order || true'
-                sh 'docker run -d -p 9020:9020 --name kot_display_order kot_display_order-nginx'
+                sh 'docker run -d -p 9020:9020 --name kot_display_order kot_display_order'
             }
         }
     }
