@@ -1,11 +1,13 @@
-FROM nginx:alpine
+FROM node:20-alpine
 
-# Copy custom Nginx config
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Create app directory
+WORKDIR /app
 
-# Copy built app contents directly into Nginx web root
-COPY /. /usr/share/nginx/html/
+# Copy application files (already built)
+COPY . .
 
-EXPOSE 9019
+# Expose port Node is running on
+EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+# Start the Node server
+CMD ["node", "server.js"]

@@ -1,17 +1,30 @@
 pipeline {
     agent any
 
+    environment {
+        IMAGE_NAME = 'KOD-node-app'
+        CONTAINER_NAME = 'KOD-node-app'
+        NODE_PORT = '3000'
+        NGINX_PORT = '9020'
+    }
+
     stages {
-        stage('Build Docker Image') {
+        stage('Checkout') {
             steps {
-                sh 'docker build -t inntapv2-nginx .'
+                git url: 'https://github.com/rahulharer/kot_display_order', branch: 'main'
             }
         }
 
-        stage('Deploy Docker Container') {
+        stage('Docker Build') {
             steps {
-                sh 'docker rm -f inntapv2-app || true'
-                sh 'docker run -d -p 9019:9019 --name inntapv2-app inntapv2-nginx'
+                sh 'docker build -t KOD-node-app .'
+            }
+        }
+
+        stage('Deploy Container') {
+            steps {
+                sh 'docker rm -f KOD-node-app || true'
+                sh 'docker run -d -p 9020:9020 --name KOD-node-app KOD-node-app'
             }
         }
     }
